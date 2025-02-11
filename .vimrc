@@ -6,6 +6,10 @@
 "                                                                              "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Plugins installation
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 " Automatic installation of the vim-plug plugin manager
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
 if empty(glob(data_dir . '/autoload/plug.vim'))
@@ -13,26 +17,102 @@ if empty(glob(data_dir . '/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-" Register plugins vim-plug
+" Register plugins in vim-plug
 call plug#begin()
 
 " List your plugins here
 Plug 'preservim/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTree'] }
+Plug 'preservim/nerdcommenter'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'morhetz/gruvbox'
+" Plug 'cdelledonne/vim-cmake'
+Plug 'ilyachur/cmake4vim'
 
 call plug#end()
 
-" Remap default leader key to space key
-let g:mapleader=' '
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Key mappings and custom commands
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" Key mappings
-nnoremap <leader>n :NERDTreeToggle<CR>
-nnoremap <leader>f :NERDTreeFind<CR>
+let g:mapleader=' '
 
 nnoremap <Leader>j <C-w>j
 nnoremap <Leader>k <C-w>k
 nnoremap <Leader>h <C-w>h
 nnoremap <Leader>l <C-w>l
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Plugins configuration
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"""""""""""""""""""""""""""""""""""""""
+" NERDTree configurations
+"""""""""""""""""""""""""""""""""""""""
+
+nmap <leader>n :NERDTreeToggle<CR>
+nmap <leader>f :NERDTreeFind<CR>
+
+"""""""""""""""""""""""""""""""""""""""
+" NERDCommenter configurations
+"""""""""""""""""""""""""""""""""""""""
+
+let g:NERDSpaceDelims = 1
+
+"""""""""""""""""""""""""""""""""""""""
+" cmake4vim configurations
+"""""""""""""""""""""""""""""""""""""""
+
+let g:cmake_build_dir_prefix=''
+nmap <leader>c <Plug>(CMake)
+nmap <leader>b <Plug>(CMakeBuild)
+nmap <leader>i <Plug>(CMakeInfo)
+nmap <leader>r <Plug>(CMakeRun)
+nmap <leader>t :CtrlPCMakeTarget<CR>
+nmap <leader>d :CtrlPCMakeBuildType<CR>
+
+"""""""""""""""""""""""""""""""""""""""
+" vim-cmake configurations
+"""""""""""""""""""""""""""""""""""""""
+
+" let g:cmake_statusline=1
+" nnoremap <leader>c :execute 'CMakeGenerate ' . input('Configuration: ')<CR>
+" nnoremap <leader>s :execute 'CMakeSwitch ' . input('Configuration: ')<CR>
+" nnoremap <leader>r :execute 'CMakeRun ' . input('Target: ')<CR>
+" nnoremap <leader>b :CMakeBuild<CR>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Vim configurations
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"""""""""""""""""""""""""""""""""""""""
+" Specifiy a color scheme gruvbox
+"""""""""""""""""""""""""""""""""""""""
+
+let g:gruvbox_contrast_dark='hard'
+let g:gruvbox_contrast_light='hard'
+let g:gruvbox_termcolors=256
+colorscheme gruvbox
+set background=dark
+
+"""""""""""""""""""""""""""""""""""""""
+" Set the background to be transparent
+"""""""""""""""""""""""""""""""""""""""
+
+highlight Normal ctermbg=none
+
+"""""""""""""""""""""""""""""""""""""""
+" Specifiy a color scheme ron 
+"""""""""""""""""""""""""""""""""""""""
+
+" colorscheme ron
+
+"""""""""""""""""""""""""""""""""""""""
+" Higlight the current line
+"""""""""""""""""""""""""""""""""""""""
+
+set cursorline
+highlight CursorLine cterm=none ctermbg=240
+highlight CursorLineNr cterm=none ctermbg=240
 
 " Save 1,000 items in history
 set history=1000
@@ -95,17 +175,6 @@ set smarttab
 set shiftwidth=4
 set tabstop=4
 
-" Specifiy a color scheme.
-colorscheme ron
-
-" Higlight the current line
-set cursorline
-highlight CursorLine cterm=none ctermbg=240
-highlight CursorLineNr cterm=none ctermbg=240
-
-" Tell vim what background you are using
-" set bg=light
-" set bg=dark
 
 " Map Y to act like D and C, i.e. yank until EOL, rather than act like yy
 " map Y y$

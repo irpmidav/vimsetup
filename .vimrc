@@ -27,6 +27,7 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'morhetz/gruvbox'
 " Plug 'cdelledonne/vim-cmake'
 Plug 'ilyachur/cmake4vim'
+Plug 'ycm-core/YouCompleteMe'
 
 call plug#end()
 
@@ -36,10 +37,11 @@ call plug#end()
 
 let g:mapleader=' '
 
-nnoremap <Leader>j <C-w>j
-nnoremap <Leader>k <C-w>k
-nnoremap <Leader>h <C-w>h
-nnoremap <Leader>l <C-w>l
+nmap <leader>w :wa<CR>
+nmap <Leader>j <C-w>j
+nmap <Leader>k <C-w>k
+nmap <Leader>h <C-w>h
+nmap <Leader>l <C-w>l
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugins configuration
@@ -63,6 +65,8 @@ let g:NERDSpaceDelims = 1
 """""""""""""""""""""""""""""""""""""""
 
 let g:cmake_build_dir_prefix=''
+" let g:cmake_compile_commands=1
+" let g:cmake_compile_commands_link='.'
 nmap <leader>c <Plug>(CMake)
 nmap <leader>b <Plug>(CMakeBuild)
 nmap <leader>i <Plug>(CMakeInfo)
@@ -114,104 +118,47 @@ set cursorline
 highlight CursorLine cterm=none ctermbg=240
 highlight CursorLineNr cterm=none ctermbg=240
 
-" Save 1,000 items in history
-set history=1000
+"""""""""""""""""""""""""""""""""""""""
+" View configurations
+"""""""""""""""""""""""""""""""""""""""
 
-" Show the line and column number of the cursor position
-set ruler
+set history=1000                        " Save 1,000 items in history
+set ruler                               " Show the line and column number of the cursor position
+set showcmd                             " Display the incomplete commands in the bottom right-hand side of your screen.  
+set wildmenu                            " Display completion matches on your status line
+set scrolloff=5                         " Show a few lines of context around the cursor
+set number                              " Turn on line numbering
+set relativenumber                      " Trun on relative line numbering
 
-" Display the incomplete commands in the bottom right-hand side of your screen.  
-set showcmd
+"""""""""""""""""""""""""""""""""""""""
+" Search configurations
+"""""""""""""""""""""""""""""""""""""""
 
-" Display completion matches on your status line
-set wildmenu
+set hlsearch                            " Highlight search matches
+set incsearch                           " Enable incremental searching
+set ignorecase                          " Ignore case when searching
+set wildignorecase                      " Ignore case when autocomplete wildcards
+set smartcase                           " Override the 'ignorecase' option if the search pattern contains upper case characters.
 
-" Show a few lines of context around the cursor
-set scrolloff=5
+"""""""""""""""""""""""""""""""""""""""
+" Indentation and tabulation
+"""""""""""""""""""""""""""""""""""""""
 
-" Highlight search matches
-set hlsearch
-
-" Enable incremental searching
-set incsearch
-
-" Ignore case when searching
-set ignorecase
-
-" Ignore case when autocomplete wildcards
-set wildignorecase
-
-" Override the 'ignorecase' option if the search pattern contains upper case characters.
-set smartcase
-
-" Turn on line numbering
-set number
-
-" Trun on relative line numbering
-set relativenumber
-
-" Turn on file backups
-" set backup
-
-" Don't line wrap mid-word.
-set lbr
-
-" Copy the indentation from the current line.
-set autoindent
-
-" Enable smart autoindenting.
-set smartindent
-
-" Set automatic C indenting.
-" set cindent
-
-" Use spaces instead of tabs
-set expandtab
-
-" Enable smart tabs
-set smarttab
-
-" Make a tab equal to 4 spaces
-set shiftwidth=4
+set linebreak                           " Don't line wrap mid-word.
+set autoindent                          " Copy the indentation from the current line.
+set smartindent                         " Enable smart autoindenting.
+" set cindent                             " Set automatic C indenting.
+set expandtab                           " Use spaces instead of tabs
+set smarttab                            " Enable smart tabs
+set shiftwidth=4                        " Make a tab equal to 4 spaces
 set tabstop=4
 
 
-" Map Y to act like D and C, i.e. yank until EOL, rather than act like yy
-" map Y y$
+"""""""""""""""""""""""""""""""""""""""
+" Other vim configurations
+"""""""""""""""""""""""""""""""""""""""
+set hidden                              " Allows hidden buffers
+set splitbelow                          " Place new window below the current while spliting horizontally
+set splitright                          " Place new window on the right side of the current while spliting vertically
+set ttimeoutlen=100                     " Fixes delay when exiting from insert mode in visual mode
 
-" Remap VIM 0 to first non-blank character
-" map 0 ^
-
-" Easily create HTML unorded lists. 
-" map <F3> i<ul><CR><Space><Space><li></li><CR><Esc>I</ul><Esc>kcit
-" map <F4> <Esc>o<li></li><Esc>cit
-
-" change the mapleader from \ to ,
-" NOTE: This has to be set before <leader> is used.
-" let mapleader=","
-
-" Quickly save your file.
-map <leader>w :w!<cr>
-
-" Saves all buffers before calling make
-augroup make_save_all
-  autocmd!
-  autocmd QuickFixCmdPre make wall
-augroup end
-
-set hidden
-
-" Place new window below the current while spliting horizontally
-set splitbelow
-set splitright
-
-" Fixes delay when exiting from insert mode in visual mode
-set ttimeoutlen=100
-
-" Set the make command to run in the build directory
-" set makeprg=make\ build
-
-" Enable quickfix window navigation for errors
-" set errorformat=%f:%l:\ %m,%f:%l:%c:\ %m
-
-" For more options see ":help option-list" and ":options".

@@ -7,6 +7,27 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
+" If you're using tmux version 2.2 or later, you can remove the outermost $TMUX 
+" check and use tmux's 24-bit color support  (see < http://sunaku.github.io/
+" tmux-24bit-color.html#usage > for more information).
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" if (empty($TMUX) && getenv('TERM_PROGRAM') != 'Apple_Terminal')
+"   if (has("nvim"))
+"     " For Neovim 0.1.3 and 0.1.4 <https://github.com/neovim/neovim/pull/2198>
+"     let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+"   endif
+"   " For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/
+"   " commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
+"   " Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/
+"   " vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
+"   " < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
+"   if (has("termguicolors"))
+"     set termguicolors
+"   endif
+" endif
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugins installation
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -23,12 +44,13 @@ call plug#begin()
 Plug 'preservim/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTree'] }
 Plug 'tpope/vim-commentary'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'morhetz/gruvbox'
-Plug 'ilyachur/cmake4vim'
-Plug 'ycm-core/YouCompleteMe'
-Plug 'sirver/ultisnips'
-Plug 'honza/vim-snippets'
-Plug 'derekwyatt/vim-fswitch'
+" Plug 'morhetz/gruvbox'
+" Plug 'ilyachur/cmake4vim'
+" Plug 'ycm-core/YouCompleteMe'
+" Plug 'sirver/ultisnips'
+" Plug 'honza/vim-snippets'
+" Plug 'derekwyatt/vim-fswitch'
+" Plug 'octol/vim-cpp-enhanced-highlight'
 
 call plug#end()
 
@@ -54,29 +76,29 @@ nnoremap <C-l> <C-w>l
 """""""""""""""""""""""""""""""""""""""
 
 nnoremap <C-n> :NERDTreeToggle<CR>
+let NERDTreeQuitOnOpen=1
 
 """""""""""""""""""""""""""""""""""""""
 " cmake4vim configurations
 """""""""""""""""""""""""""""""""""""""
 
-let g:cmake_build_dir_prefix=''
-let g:cmake_compile_commands=1
-let g:cmake_compile_commands_link='.'
-command! Config CMake
-command! Build CMakeBuild
-command! Info CMakeInfo
-command! Run CMakeRun
-command! Target CtrlPCMakeTarget
-command! Type CtrlPCMakeBuildType
-nnoremap <Leader>b :wa<CR>:Build<CR> 
-nnoremap <Leader>r :wa<CR>:Run<CR>
+" let g:cmake_build_dir_prefix=''
+" let g:cmake_compile_commands=1
+" let g:cmake_compile_commands_link='.'
+" command! Config CMake
+" command! Build CMakeBuild
+" command! Info CMakeInfo
+" command! Run CMakeRun
+" command! Target CtrlPCMakeTarget
+" command! Type CtrlPCMakeBuildType
+" nnoremap <Leader>b :wa<CR>:Build<CR> 
+" nnoremap <Leader>r :wa<CR>:Run<CR>
 
 """""""""""""""""""""""""""""""""""""""
 " YCM configurations
 """""""""""""""""""""""""""""""""""""""
 
-" inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
-nnoremap <F2> :YcmCompleter GoToDefinition<CR>
+" nnoremap <F2> :YcmCompleter GoToDefinition<CR>
 
 """""""""""""""""""""""""""""""""""""""
 " UltiSnips configurations
@@ -85,15 +107,15 @@ nnoremap <F2> :YcmCompleter GoToDefinition<CR>
 "  - ctrl-j to expand
 "  - ctrl-j to go to next tabstop
 "  - ctrl-k to go to previous tabstop
-let g:UltiSnipsExpandTrigger = '<C-j>'
-let g:UltiSnipsJumpForwardTrigger = '<C-j>'
-let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
+" let g:UltiSnipsExpandTrigger = '<C-j>'
+" let g:UltiSnipsJumpForwardTrigger = '<C-j>'
+" let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
 
 """""""""""""""""""""""""""""""""""""""
 " fswitch configurations
 """""""""""""""""""""""""""""""""""""""
 
-nnoremap <F4> :FSHere<CR>
+" nnoremap <F4> :FSHere<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vim configurations
@@ -103,23 +125,24 @@ nnoremap <F4> :FSHere<CR>
 " Specifiy a color scheme gruvbox
 """""""""""""""""""""""""""""""""""""""
 
-let g:gruvbox_contrast_dark='hard'
-let g:gruvbox_contrast_light='hard'
-let g:gruvbox_termcolors=256
-colorscheme gruvbox
-set background=dark
+" let g:gruvbox_contrast_dark='hard'
+" let g:gruvbox_contrast_light='hard'
+" let g:gruvbox_termcolors=256
+" set background=light
+" colorscheme gruvbox
+" highlight Normal guifg=#000000 ctermfg=0
 
 """""""""""""""""""""""""""""""""""""""
 " Set the background to be transparent
 """""""""""""""""""""""""""""""""""""""
 
-highlight Normal ctermbg=none
+" highlight Normal ctermbg=none
 
 """""""""""""""""""""""""""""""""""""""
 " Specifiy a color scheme ron 
 """""""""""""""""""""""""""""""""""""""
 
-" colorscheme ron
+colorscheme ron
 
 """""""""""""""""""""""""""""""""""""""
 " Higlight the current line
@@ -164,7 +187,6 @@ set smarttab                            " Enable smart tabs
 set shiftwidth=4                        " Make a tab equal to 4 spaces
 set tabstop=4
 
-
 """""""""""""""""""""""""""""""""""""""
 " Other vim configurations
 """""""""""""""""""""""""""""""""""""""
@@ -172,5 +194,4 @@ set hidden                              " Allows hidden buffers
 set splitbelow                          " Place new window below the current while spliting horizontally
 set splitright                          " Place new window on the right side of the current while spliting vertically
 set ttimeoutlen=100                     " Fixes delay when exiting from insert mode in visual mode
-
 

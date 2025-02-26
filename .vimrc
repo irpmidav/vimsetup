@@ -20,14 +20,15 @@ endif
 " Register plugins in vim-plug
 call plug#begin()
 
-" List your plugins here
 Plug 'preservim/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTree'] }
-Plug 'preservim/nerdcommenter'
+Plug 'tpope/vim-commentary'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'morhetz/gruvbox'
-" Plug 'cdelledonne/vim-cmake'
 Plug 'ilyachur/cmake4vim'
 Plug 'ycm-core/YouCompleteMe'
+Plug 'sirver/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'derekwyatt/vim-fswitch'
 
 call plug#end()
 
@@ -37,11 +38,12 @@ call plug#end()
 
 let g:mapleader=' '
 
-nmap <leader>w :wa<CR>
-nmap <Leader>j <C-w>j
-nmap <Leader>k <C-w>k
-nmap <Leader>h <C-w>h
-nmap <Leader>l <C-w>l
+nnoremap <Leader>w :wa<CR>
+nnoremap <Leader>q :qa<CR>
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugins configuration
@@ -51,38 +53,47 @@ nmap <Leader>l <C-w>l
 " NERDTree configurations
 """""""""""""""""""""""""""""""""""""""
 
-nmap <leader>n :NERDTreeToggle<CR>
-nmap <leader>f :NERDTreeFind<CR>
-
-"""""""""""""""""""""""""""""""""""""""
-" NERDCommenter configurations
-"""""""""""""""""""""""""""""""""""""""
-
-let g:NERDSpaceDelims = 1
+nnoremap <C-n> :NERDTreeToggle<CR>
 
 """""""""""""""""""""""""""""""""""""""
 " cmake4vim configurations
 """""""""""""""""""""""""""""""""""""""
 
 let g:cmake_build_dir_prefix=''
-" let g:cmake_compile_commands=1
-" let g:cmake_compile_commands_link='.'
-nmap <leader>c <Plug>(CMake)
-nmap <leader>b <Plug>(CMakeBuild)
-nmap <leader>i <Plug>(CMakeInfo)
-nmap <leader>r <Plug>(CMakeRun)
-nmap <leader>t :CtrlPCMakeTarget<CR>
-nmap <leader>d :CtrlPCMakeBuildType<CR>
+let g:cmake_compile_commands=1
+let g:cmake_compile_commands_link='.'
+command! Config CMake
+command! Build CMakeBuild
+command! Info CMakeInfo
+command! Run CMakeRun
+command! Target CtrlPCMakeTarget
+command! Type CtrlPCMakeBuildType
+nnoremap <Leader>b :wa<CR>:Build<CR> 
+nnoremap <Leader>r :wa<CR>:Run<CR>
 
 """""""""""""""""""""""""""""""""""""""
-" vim-cmake configurations
+" YCM configurations
 """""""""""""""""""""""""""""""""""""""
 
-" let g:cmake_statusline=1
-" nnoremap <leader>c :execute 'CMakeGenerate ' . input('Configuration: ')<CR>
-" nnoremap <leader>s :execute 'CMakeSwitch ' . input('Configuration: ')<CR>
-" nnoremap <leader>r :execute 'CMakeRun ' . input('Target: ')<CR>
-" nnoremap <leader>b :CMakeBuild<CR>
+" inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
+nnoremap <F2> :YcmCompleter GoToDefinition<CR>
+
+"""""""""""""""""""""""""""""""""""""""
+" UltiSnips configurations
+"""""""""""""""""""""""""""""""""""""""
+
+"  - ctrl-j to expand
+"  - ctrl-j to go to next tabstop
+"  - ctrl-k to go to previous tabstop
+let g:UltiSnipsExpandTrigger = '<C-j>'
+let g:UltiSnipsJumpForwardTrigger = '<C-j>'
+let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
+
+"""""""""""""""""""""""""""""""""""""""
+" fswitch configurations
+"""""""""""""""""""""""""""""""""""""""
+
+nnoremap <F4> :FSHere<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vim configurations
@@ -161,4 +172,5 @@ set hidden                              " Allows hidden buffers
 set splitbelow                          " Place new window below the current while spliting horizontally
 set splitright                          " Place new window on the right side of the current while spliting vertically
 set ttimeoutlen=100                     " Fixes delay when exiting from insert mode in visual mode
+
 
